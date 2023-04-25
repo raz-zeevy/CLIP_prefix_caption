@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7a415713-6726-4f73-a813-88033a52fffd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/prepare.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extract.sh" beforeDir="false" afterPath="$PROJECT_DIR$/extract.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parse_coco.py" beforeDir="false" afterPath="$PROJECT_DIR$/parse_coco.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -97,6 +97,21 @@
       <workItem from="1631795514442" duration="3308000" />
       <workItem from="1632492645974" duration="907000" />
     </task>
+    <task id="LOCAL-00001" summary="changes env vars to fix out of space in disk">
+      <created>1682412542097</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1682412542097</updated>
+    </task>
+    <task id="LOCAL-00002" summary="the script to extract features">
+      <created>1682417932871</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1682417932871</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -132,6 +147,11 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="changes env vars to fix out of space in disk" />
+    <MESSAGE value="the script to extract features" />
+    <option name="LAST_COMMIT_MESSAGE" value="the script to extract features" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/parse_coco.py">
