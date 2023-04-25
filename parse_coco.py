@@ -1,3 +1,8 @@
+# This lines are meant to change the environment variables
+# in order to save the model to a different path
+from prepare import prepare
+prepare()
+#
 import torch
 import skimage.io as io
 import clip
