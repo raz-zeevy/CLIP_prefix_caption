@@ -1,3 +1,5 @@
+from prepare import prepare
+prepare()
 import torch
 import torch.nn as nn
 from torch.nn import functional as nnf
