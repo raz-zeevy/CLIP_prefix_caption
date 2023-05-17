@@ -3,13 +3,14 @@ from torchvision.transforms import Compose, Resize, CenterCrop, ToTensor, Normal
 from PIL import Image
 from torch import nn
 import argparse
+import sys, os
 
 def check_args(args):
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--model-path",
         help="Path to the trained model",
-        default=os.path.expanduser("./model/Vit-B-32.pt"),
+        default=os.path.expanduser("model/ViT-B-32.pt"),
     )
     parser.add_argument(
         "--image-path",
