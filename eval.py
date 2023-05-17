@@ -15,7 +15,7 @@ def check_args(args):
     parser.add_argument(
         "--image-path",
         help="Path to the image for which captions should be generated",
-        default='./Imgaes/COCO_val2014_000000562207.jpg'
+        default='./Images/COCO_val2014_000000562207.jpg'
     )
     parsed_args = parser.parse_args(args)
     return parsed_args
@@ -36,9 +36,11 @@ if __name__ == '__main__':
         ToTensor(),
         Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
     ])
-
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # Load the CLIP model from the .pt file
-    model, transform = torch.load(model_path)
+    # model = torch.load(model_path, map_location=device)[
+    #     'model']
+    model = torch.jit.load(model_path, map_location=device)
 
     # Set the model to evaluation mode
     model.eval()
