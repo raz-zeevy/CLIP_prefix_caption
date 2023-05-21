@@ -4,7 +4,7 @@ from PIL import Image
 from torch import nn
 import argparse
 import sys, os
-from predict import *
+# from predict import *
 
 def check_args(args):
     parser = argparse.ArgumentParser()
