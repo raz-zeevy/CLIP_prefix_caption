@@ -55,5 +55,5 @@ if __name__ == '__main__':
     # Define the path to the image for which captions will be generated
     image_path = parsed_args.image_path
 
-    eval_using_predict(image_path, model_path)
-    # eval_using_load(model_path)
+    # eval_using_predict(image_path, model_path)
+    eval_using_load(model_path)

@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a415713-6726-4f73-a813-88033a52fffd" name="Default Changelist" comment="">
+    <list default="true" id="7a415713-6726-4f73-a813-88033a52fffd" name="Default Changelist" comment="more minor-changes to origin predict.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eval.py" beforeDir="false" afterPath="$PROJECT_DIR$/eval.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/predict.py" beforeDir="false" afterPath="$PROJECT_DIR$/predict.py" afterDir="false" />
@@ -289,7 +289,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684669165647</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="more minor-changes to origin predict.py">
+      <created>1684669467815</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1684669467815</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -348,7 +355,8 @@
     <MESSAGE value="add original predict.py file" />
     <MESSAGE value="change eval for origin predict.py" />
     <MESSAGE value="remove cog.Predictor from origin predict.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove cog.Predictor from origin predict.py" />
+    <MESSAGE value="more minor-changes to origin predict.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="more minor-changes to origin predict.py" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -37,7 +37,7 @@ TSN = Optional[TS]
 TA = Union[T, ARRAY]
 
 WEIGHTS_PATHS = {
-    "coco": "model/ViT-B-32.pt",
+    "coco": "coco_train/coco_prefix_latest.pt",
     "conceptual-captions": "conceptual_weights.pt",
 }
 
@@ -58,12 +58,7 @@ class Predictor(cog.BasePredictor):
         self.prefix_length = 10
         for key, weights_path in WEIGHTS_PATHS.items():
             model = ClipCaptionModel(self.prefix_length)
-            # original
-            # model.load_state_dict(torch.load(weights_path, map_location=CPU))
-            # My version
-            state_dict = torch.jit.load(weights_path, self.device).state_dict()
-            model.load_state_dict(state_dict)
-            #
+            model.load_state_dict(torch.load(weights_path, map_location=CPU))
             model = model.eval()
             model = model.to(self.device)
             self.models[key] = model
