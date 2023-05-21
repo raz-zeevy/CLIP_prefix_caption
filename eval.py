@@ -22,7 +22,7 @@ def check_args(args):
     return parsed_args
 
 def eval_using_predict(image_path, model_path):
-    from predict_0 import Predictor
+    from predict import Predictor
     use_beam_search = False
     predictor = Predictor()
     predictor.setup(model_path)

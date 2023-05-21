@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a415713-6726-4f73-a813-88033a52fffd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cog.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cog.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eval.py" beforeDir="false" afterPath="$PROJECT_DIR$/eval.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eval_0.py" beforeDir="false" afterPath="$PROJECT_DIR$/eval_0.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/predict.py" beforeDir="false" afterPath="$PROJECT_DIR$/predict_0.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -263,7 +259,21 @@
       <option name="project" value="LOCAL" />
       <updated>1684665429570</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="changed predict.py back to original with state_dict">
+      <created>1684668411293</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1684668411293</updated>
+    </task>
+    <task id="LOCAL-00012" summary="add original predict.py file">
+      <created>1684668481685</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1684668481685</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -318,7 +328,9 @@
     <MESSAGE value="commented the cog eval.py" />
     <MESSAGE value="changed dramatically Predict in predict.py" />
     <MESSAGE value="changed predict.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed predict.py" />
+    <MESSAGE value="changed predict.py back to original with state_dict" />
+    <MESSAGE value="add original predict.py file" />
+    <option name="LAST_COMMIT_MESSAGE" value="add original predict.py file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
