@@ -25,8 +25,8 @@ def eval_using_predict(image_path, model_path):
     from predict import Predictor
     use_beam_search = False
     predictor = Predictor()
-    predictor.setup()
-    predictor.predict(image_path, model_path, use_beam_search)
+    predictor.setup(model_path)
+    predictor.predict(image_path, use_beam_search)
 
 def eval_using_load():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

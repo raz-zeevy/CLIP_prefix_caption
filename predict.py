@@ -46,22 +46,19 @@ CPU = torch.device("cpu")
 
 
 class Predictor(cog.BasePredictor):
-    def setup(self):
+    def setup(self, weights_path : str):
         """Load the model into memory to make running multiple predictions efficient"""
-        self.device = torch.device("cuda")
+        self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
         self.clip_model, self.preprocess = clip.load(
             "ViT-B/32", device=self.device, jit=False
         )
         self.tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
-
-        self.models = {}
         self.prefix_length = 10
-        for key, weights_path in WEIGHTS_PATHS.items():
-            model = ClipCaptionModel(self.prefix_length)
-            model.load_state_dict(torch.load(weights_path, map_location=CPU))
-            model = model.eval()
-            model = model.to(self.device)
-            self.models[key] = model
+        model = ClipCaptionModel(self.prefix_length)
+        model.load_state_dict(torch.load(weights_path, map_location=CPU))
+        model = model.eval()
+        model = model.to(self.device)
+        self.model = model
 
     # @cog.input("image", help="Input image")
     # @cog.input(
@@ -77,10 +74,10 @@ class Predictor(cog.BasePredictor):
     #     default=False,
     #     help="Whether to apply beam search to generate the output text",
     # )
-    def predict(self, image, model, use_beam_search):
+    def predict(self, image, use_beam_search):
         """Run a single prediction on the model"""
         image = io.imread(image)
-        model = self.models[model]
+        model = self.model
         pil_image = PIL.Image.fromarray(image)
         image = self.preprocess(pil_image).unsqueeze(0).to(self.device)
         with torch.no_grad():
