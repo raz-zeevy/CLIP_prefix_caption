@@ -21,6 +21,30 @@ def check_args(args):
     parsed_args = parser.parse_args(args)
     return parsed_args
 
+def eval_using_predict(image_path, model_path):
+    from predict import Predictor
+    use_beam_search = False
+    predictor = Predictor()
+    predictor.setup()
+    predictor.predict(image_path, model_path, use_beam_search)
+
+def eval_using_load():
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = torch.jit.load(model_path, device)
+    # image_features = model.encode_image(image_path)
+    # captions = model.generate(image_features)
+    # print(captions)
+    # image = io.imread(image)
+    # Convert the image to a PIL image.
+    # pil_image = PIL.Image.fromarray(image)
+    # image = self.preprocess(pil_image).unsqueeze(0).to(self.device)
+    # with torch.no_grad():
+    #     prefix = self.clip_model.encode_image(image).to(
+    #         self.device, dtype=torch.float32
+    #     )
+    #     prefix_embed = model.clip_project(prefix).reshape(1, self.prefix_length, -1)
+
+
 if __name__ == '__main__':
     parsed_args = check_args(sys.argv[1:])
     # Define the path to the .pt file of the CLIP model
@@ -28,11 +52,5 @@ if __name__ == '__main__':
 
     # Define the path to the image for which captions will be generated
     image_path = parsed_args.image_path
-    # use_beam_search = False
-    # predictor = Predictor()
-    # predictor.setup()
-    # predictor.predict(image_path, model_path, use_beam_search)
-    model = torch.jit.load(model_path)
-    image_features = model.encode_image(image_path)
-    captions = model.generate(image_features)
-    print(captions)
+
+    eval_using_predict(image_path, model_path)

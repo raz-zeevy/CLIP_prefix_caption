@@ -63,20 +63,20 @@ class Predictor(cog.BasePredictor):
             model = model.to(self.device)
             self.models[key] = model
 
-    @cog.input("image", type=cog.Path, help="Input image")
-    @cog.input(
-        "model",
-        type=str,
-        options=WEIGHTS_PATHS.keys(),
-        default="coco",
-        help="Model to use",
-    )
-    @cog.input(
-        "use_beam_search",
-        type=bool,
-        default=False,
-        help="Whether to apply beam search to generate the output text",
-    )
+    # @cog.input("image", help="Input image")
+    # @cog.input(
+    #     "model",
+    #     type=str,
+    #     options=WEIGHTS_PATHS.keys(),
+    #     default="coco",
+    #     help="Model to use",
+    # )
+    # @cog.input(
+    #     "use_beam_search",
+    #     type=bool,
+    #     default=False,
+    #     help="Whether to apply beam search to generate the output text",
+    # )
     def predict(self, image, model, use_beam_search):
         """Run a single prediction on the model"""
         image = io.imread(image)
