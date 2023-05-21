@@ -46,7 +46,7 @@ CPU = torch.device("cpu")
 
 
 class Predictor(cog.BasePredictor):
-    def setup(self, weights_path : str):
+    def setup(self, model_path : str):
         """Load the model into memory to make running multiple predictions efficient"""
         self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
         self.clip_model, self.preprocess = clip.load(
@@ -55,7 +55,7 @@ class Predictor(cog.BasePredictor):
         self.tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
         self.prefix_length = 10
         # model = ClipCaptionModel(self.prefix_length)
-        model = torch.jit.load(weights_path, self.device)
+        model = torch.jit.load(model_path, self.device)
         # model.load_state_dict(torch.load(weights_path, map_location=CPU))
         model = model.eval()
         model = model.to(self.device)
@@ -81,15 +81,17 @@ class Predictor(cog.BasePredictor):
         model = self.model
         pil_image = PIL.Image.fromarray(image)
         image = self.preprocess(pil_image).unsqueeze(0).to(self.device)
-        with torch.no_grad():
-            prefix = self.clip_model.encode_image(image).to(
-                self.device, dtype=torch.float32
-            )
-            prefix_embed = model.clip_project(prefix).reshape(1, self.prefix_length, -1)
-        if use_beam_search:
-            return generate_beam(model, self.tokenizer, embed=prefix_embed)[0]
-        else:
-            return generate2(model, self.tokenizer, embed=prefix_embed)
+        captions = model.generate(image)
+        print(captions)
+        # with torch.no_grad():
+        #     prefix = self.clip_model.encode_image(image).to(
+        #         self.device, dtype=torch.float32
+        #     )
+        #     prefix_embed = model.clip_project(prefix).reshape(1, self.prefix_length, -1)
+        # if use_beam_search:
+        #     return generate_beam(model, self.tokenizer, embed=prefix_embed)[0]
+        # else:
+        #     return generate2(model, self.tokenizer, embed=prefix_embed)
 
 
 class MLP(nn.Module):
