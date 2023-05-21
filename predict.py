@@ -54,8 +54,9 @@ class Predictor(cog.BasePredictor):
         )
         self.tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
         self.prefix_length = 10
-        model = ClipCaptionModel(self.prefix_length)
-        model.load_state_dict(torch.load(weights_path, map_location=CPU))
+        # model = ClipCaptionModel(self.prefix_length)
+        model = torch.jit.load(weights_path, self.device)
+        # model.load_state_dict(torch.load(weights_path, map_location=CPU))
         model = model.eval()
         model = model.to(self.device)
         self.model = model
