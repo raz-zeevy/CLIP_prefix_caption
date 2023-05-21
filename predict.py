@@ -37,7 +37,7 @@ TSN = Optional[TS]
 TA = Union[T, ARRAY]
 
 WEIGHTS_PATHS = {
-    "coco": "coco_weights.pt",
+    "coco": "model/ViT-B-32.pt",
     "conceptual-captions": "conceptual_weights.pt",
 }
 

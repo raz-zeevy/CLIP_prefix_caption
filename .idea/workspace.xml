@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a415713-6726-4f73-a813-88033a52fffd" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eval.py" beforeDir="false" afterPath="$PROJECT_DIR$/eval.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/predict.py" beforeDir="false" afterPath="$PROJECT_DIR$/predict.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -273,7 +275,21 @@
       <option name="project" value="LOCAL" />
       <updated>1684668481685</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="change eval for origin predict.py">
+      <created>1684668758233</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1684668758233</updated>
+    </task>
+    <task id="LOCAL-00014" summary="remove cog.Predictor from origin predict.py">
+      <created>1684669165647</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1684669165647</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -330,7 +346,9 @@
     <MESSAGE value="changed predict.py" />
     <MESSAGE value="changed predict.py back to original with state_dict" />
     <MESSAGE value="add original predict.py file" />
-    <option name="LAST_COMMIT_MESSAGE" value="add original predict.py file" />
+    <MESSAGE value="change eval for origin predict.py" />
+    <MESSAGE value="remove cog.Predictor from origin predict.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove cog.Predictor from origin predict.py" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
