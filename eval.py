@@ -4,6 +4,7 @@ from PIL import Image
 from torch import nn
 import argparse
 import sys, os
+from predict import *
 
 def check_args(args):
     parser = argparse.ArgumentParser()
@@ -27,35 +28,11 @@ if __name__ == '__main__':
 
     # Define the path to the image for which captions will be generated
     image_path = parsed_args.image_path
-
-
-    # Define the necessary transformations for image preprocessing
-    image_transform = Compose([
-        Resize((224, 224)),
-        CenterCrop((224, 224)),
-        ToTensor(),
-        Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
-    ])
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    # Load the CLIP model from the .pt file
-    # model = torch.load(model_path, map_location=device)[
-    #     'model']
-    model = torch.jit.load(model_path, map_location=device)
-
-    # Set the model to evaluation mode
-    model.eval()
-
-    # Load and preprocess the image
-    image = Image.open(image_path)
-    image = image_transform(image).unsqueeze(0)
-
-    # Perform forward pass through the model to get image features
-    with torch.no_grad():
-        image_features = model.encode_image(image)
-
-    # Generate captions for the image
-    captions = model.decode(image_features)
-
-    # Print the generated captions
-    for caption in captions:
-        print(caption)
+    # use_beam_search = False
+    # predictor = Predictor()
+    # predictor.setup()
+    # predictor.predict(image_path, model_path, use_beam_search)
+    model = torch.jit.load(model_path)
+    image_features = model.encode_image(image_path)
+    captions = model.generate(image_features)
+    print(captions)
