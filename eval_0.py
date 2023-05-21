@@ -43,7 +43,7 @@ if __name__ == '__main__':
     # model = torch.load(model_path, map_location=device)[
     #     'model']
     # model = torch.jit.load(model_path, map_location=device)
-    from predict import ClipCaptionModel
+    from predict_0 import ClipCaptionModel
     prefix_length = 10
     model = ClipCaptionModel(prefix_length)
     model.load_state_dict(torch.load(model_path, map_location=device))

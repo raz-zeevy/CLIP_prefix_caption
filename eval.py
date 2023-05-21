@@ -22,15 +22,17 @@ def check_args(args):
     return parsed_args
 
 def eval_using_predict(image_path, model_path):
-    from predict import Predictor
+    from predict_0 import Predictor
     use_beam_search = False
     predictor = Predictor()
     predictor.setup(model_path)
     predictor.predict(image_path, use_beam_search)
 
-def eval_using_load():
+def eval_using_load(model_path : str):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = torch.jit.load(model_path, device)
+    state_dict = torch.jit.load(model_path, device).state_dict()
+    print("")
+
     # image_features = model.encode_image(image_path)
     # captions = model.generate(image_features)
     # print(captions)
@@ -54,3 +56,4 @@ if __name__ == '__main__':
     image_path = parsed_args.image_path
 
     eval_using_predict(image_path, model_path)
+    # eval_using_load(model_path)
