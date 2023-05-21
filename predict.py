@@ -38,7 +38,7 @@ TA = Union[T, ARRAY]
 
 WEIGHTS_PATHS = {
     "coco": "coco_train/coco_prefix_latest.pt",
-    "conceptual-captions": "conceptual_weights.pt",
+    # "conceptual-captions": "conceptual_weights.pt",
 }
 
 D = torch.device
