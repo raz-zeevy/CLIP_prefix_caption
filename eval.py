@@ -28,25 +28,6 @@ def eval_using_predict(image_path, model_path):
     predictor.setup()
     print(predictor.predict(image_path, "coco", use_beam_search))
 
-def eval_using_load(model_path : str):
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    state_dict = torch.jit.load(model_path, device).state_dict()
-    print("")
-
-    # image_features = model.encode_image(image_path)
-    # captions = model.generate(image_features)
-    # print(captions)
-    # image = io.imread(image)
-    # Convert the image to a PIL image.
-    # pil_image = PIL.Image.fromarray(image)
-    # image = self.preprocess(pil_image).unsqueeze(0).to(self.device)
-    # with torch.no_grad():
-    #     prefix = self.clip_model.encode_image(image).to(
-    #         self.device, dtype=torch.float32
-    #     )
-    #     prefix_embed = model.clip_project(prefix).reshape(1, self.prefix_length, -1)
-
-
 if __name__ == '__main__':
     parsed_args = check_args(sys.argv[1:])
     # Define the path to the .pt file of the CLIP model
