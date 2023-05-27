@@ -121,16 +121,19 @@ def create_embedding_pkl(clip_model_type: str, split: dict, split_index : int):
     return 0
 
 
-def main(clip_model_type: str, dataset_splits_folder: str):
+def main(clip_model_type: str, dataset_splits_folder: str, split_index : int):
     splits = load_splits(dataset_splits_folder)
+    if split_index is not None:
+        create_embedding_pkl(clip_model_type, splits[split_index], split_index)
+        return
     for i, split in enumerate(splits):
         create_embedding_pkl(clip_model_type, split, i)
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--clip_model_type', default="ViT-B/32",
                         choices=('RN50', 'RN101', 'RN50x4', 'ViT-B/32'))
     parser.add_argument('--dataset-splits', default="./dataset_splits")
+    parser.add_argument('--index', default=None)
     args = parser.parse_args()
-    exit(main(args.clip_model_type, args.dataset_splits))
+    exit(main(args.clip_model_type, args.dataset_splits, args.index))
