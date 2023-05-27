@@ -25,13 +25,14 @@ def main(clip_model_type: str):
     Returns:
         int: Status code (0) indicating the success of the function.
     """
-    device = torch.device('cuda:0')
-    clip_model_name = clip_model_type.replace('/', '_')
-    out_path = f"./data/coco/{SPLIT_NAME}_split_{clip_model_name}_train.pkl"
-    # Load the CLIP model and the preprocessing function
-    clip_model, preprocess = clip.load(clip_model_type, device=device,
-                                       jit=False,
-   download_root="/cs/snapless/oabend/raz.zeevy/CLIP_prefix_caption/model")
+   #  device = torch.device('cuda:0')
+   #  clip_model_name = clip_model_type.replace('/', '_')
+   #  out_path = f"./data/coco/{SPLIT_NAME}_split_{clip_model_name}_train.pkl"
+   #  # Load the CLIP model and the preprocessing function
+   #  clip_model, preprocess = clip.load(clip_model_type, device=device,
+   #                                     jit=False,
+   # download_root="/cs/snapless/oabend/raz.zeevy/CLIP_prefix_caption/model"
+   #                                     )
     # Load the captions from a JSON file
     with open('./data/coco/annotations/train_caption.json', 'r') as f:
         data = json.load(f)
@@ -39,11 +40,11 @@ def main(clip_model_type: str):
     all_embeddings = []
     all_captions = []
     for i in tqdm(range(len(data))):
+        d = data[i]
+        img_id = d["image_id"]
         # check if the image is in the cosplit train set
         # if not, skip it
         # todo - mentiond above
-        d = data[i]
-        img_id = d["image_id"]
         filename = f"./data/coco/train2014/COCO_train2014_{int(img_id):012d}.jpg"
         # If the image is not found in the train2014 directory, try the val2014 directory
         if not os.path.isfile(filename):
