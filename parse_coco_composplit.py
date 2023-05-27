@@ -57,8 +57,7 @@ def check_if_image_in_split(img_id: int, split: dict) -> bool:
     Returns:
         bool: True if the image is in the split, False otherwise.
     """
-    return img_id in split["train"] or img_id in split["val"] or img_id in \
-        split["test"]
+    return img_id in split["train_images_split"]
 
 
 def create_embedding_pkl(clip_model_type: str, split: dict, split_index : int):
@@ -122,6 +121,7 @@ def create_embedding_pkl(clip_model_type: str, split: dict, split_index : int):
 
 
 def main(clip_model_type: str, dataset_splits_folder: str, split_index : int):
+    split_index = int(split_index) if split_index is not None else None
     splits = load_splits(dataset_splits_folder)
     if split_index is not None:
         create_embedding_pkl(clip_model_type, splits[split_index-1],
@@ -137,4 +137,4 @@ if __name__ == '__main__':
     parser.add_argument('--dataset-splits', default="./dataset_splits")
     parser.add_argument('--index', default=None)
     args = parser.parse_args()
-    exit(main(args.clip_model_type, args.dataset_splits, int(args.index)))
+    exit(main(args.clip_model_type, args.dataset_splits, args.index))
