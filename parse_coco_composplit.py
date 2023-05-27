@@ -137,4 +137,4 @@ if __name__ == '__main__':
     parser.add_argument('--dataset-splits', default="./dataset_splits")
     parser.add_argument('--index', default=None)
     args = parser.parse_args()
-    exit(main(args.clip_model_type, args.dataset_splits, args.index))
+    exit(main(args.clip_model_type, args.dataset_splits, int(args.index)))
