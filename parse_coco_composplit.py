@@ -124,10 +124,11 @@ def create_embedding_pkl(clip_model_type: str, split: dict, split_index : int):
 def main(clip_model_type: str, dataset_splits_folder: str, split_index : int):
     splits = load_splits(dataset_splits_folder)
     if split_index is not None:
-        create_embedding_pkl(clip_model_type, splits[split_index], split_index)
+        create_embedding_pkl(clip_model_type, splits[split_index-1],
+                             split_index)
         return
     for i, split in enumerate(splits):
-        create_embedding_pkl(clip_model_type, split, i)
+        create_embedding_pkl(clip_model_type, split, i+1)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
