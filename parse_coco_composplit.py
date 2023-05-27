@@ -21,7 +21,7 @@ import os
 from tqdm import tqdm
 import argparse
 
-SPLIT_NAME = "composplit"
+SPLIT_NAME = "compo"
 
 
 def load_splits(dataset_splits_folder: str) -> List[Dict[str, List[int]]]:
@@ -36,12 +36,6 @@ def load_splits(dataset_splits_folder: str) -> List[Dict[str, List[int]]]:
         split_path = os.path.join(dataset_splits_folder, split_name)
         with open(split_path, 'r') as f:
             split_data = json.load(f)
-            for key in split_data:
-                if key not in split_data:
-                    split_data[key] = []
-                # Extend the list of images for each split
-                if split_data[key]:
-                    split_data[key].extend(split_data[key])
             splits.append(split_data)
     return splits
 
