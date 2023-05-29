@@ -82,6 +82,9 @@ def create_embedding_pkl(clip_model_type: str, split: dict, split_index : int):
     print("%0d captions loaded from json " % len(data))
     all_embeddings = []
     all_captions = []
+    # Changed the working index in the loop to j instead of i
+    # because of the change in the number of images processed
+    j = 0 # counter for the real number of images processed
     for i in tqdm(range(len(data))):
         d = data[i]
         img_id = d["image_id"]
@@ -96,10 +99,10 @@ def create_embedding_pkl(clip_model_type: str, split: dict, split_index : int):
         with torch.no_grad():
             # Encode the image using the CLIP model
             prefix = clip_model.encode_image(image).cpu()
-        d["clip_embedding"] = i
+        d["clip_embedding"] = j
         all_embeddings.append(prefix)
         all_captions.append(d)
-        if (i + 1) % 10000 == 0:
+        if (j + 1) % 10000 == 0:
             # Periodically save the embeddings and captions to a pickle file
             with open(out_path, 'wb') as f:
                 pickle.dump(

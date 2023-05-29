@@ -68,9 +68,9 @@ class ClipCocoDataset(Dataset):
             self.captions_tokens = []
             self.caption2embedding = []
             max_seq_len = 0
-            for caption in captions_raw:
+            for j, caption in enumerate(captions_raw):
                 self.captions_tokens.append(torch.tensor(self.tokenizer.encode(caption['caption']), dtype=torch.int64))
-                self.caption2embedding.append(caption["clip_embedding"])
+                self.caption2embedding.append(j)
                 max_seq_len = max(max_seq_len, self.captions_tokens[-1].shape[0])
             # self.max_seq_len = max_seq_len
             with open(f"{data_path[:-4]}_tokens.pkl", 'wb') as f:
@@ -338,7 +338,7 @@ def train(dataset: ClipCocoDataset, model: ClipCaptionModel, args,
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data', default='./data/coco/oscar_split_train.pkl')
+    parser.add_argument('--data', default='./data/coco/compo_split_1_ViT-B_32_train.pkl')
     parser.add_argument('--out_dir', default='./checkpoints')
     parser.add_argument('--prefix', default='coco_prefix', help='prefix for saved filenames')
     parser.add_argument('--epochs', type=int, default=10)
