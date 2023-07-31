@@ -1,3 +1,6 @@
+'''
+This file is used to evaluate the model on a single image.
+'''
 import torch
 from torchvision.transforms import Compose, Resize, CenterCrop, ToTensor, Normalize
 from PIL import Image

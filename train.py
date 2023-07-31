@@ -50,7 +50,14 @@ class ClipCocoDataset(Dataset):
 
     def __init__(self, data_path: str,  prefix_length: int, gpt2_type: str = "gpt2",
                  normalize_prefix=False):
-        self.tokenizer = GPT2Tokenizer.from_pretrained(gpt2_type)
+        # create tokenizer
+        import linguistic_tokenizer as lt
+        self.tokenizer = lt.create_tokenizer(gpt2_type)
+        # save tokenizer
+        if not os.path.exists("checkpoint"):
+            os.mkdir("checkpoint")
+        self.tokenizer.save("checkpoint/tokenizer.json")
+        #
         self.prefix_length = prefix_length
         self.normalize_prefix = normalize_prefix
         with open(data_path, 'rb') as f:
@@ -70,6 +77,7 @@ class ClipCocoDataset(Dataset):
             max_seq_len = 0
             for j, caption in enumerate(captions_raw):
                 self.captions_tokens.append(torch.tensor(self.tokenizer.encode(caption['caption']), dtype=torch.int64))
+                # TODO: change it back to original
                 self.caption2embedding.append(j)
                 max_seq_len = max(max_seq_len, self.captions_tokens[-1].shape[0])
             # self.max_seq_len = max_seq_len

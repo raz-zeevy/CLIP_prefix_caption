@@ -52,6 +52,8 @@ class Predictor(cog.BasePredictor):
         self.clip_model, self.preprocess = clip.load(
             "ViT-B/32", device=self.device, jit=False
         )
+        # TODO: change it to load from disk instead of downloading
+        #
         self.tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
 
         self.models = {}
@@ -135,7 +137,8 @@ class ClipCaptionModel(nn.Module):
     def __init__(self, prefix_length: int, prefix_size: int = 512):
         super(ClipCaptionModel, self).__init__()
         self.prefix_length = prefix_length
-        self.gpt = GPT2LMHeadModel.from_pretrained("gpt2")
+        import linguistic_tokenizer as lt
+        self.gpt = lt.create_tokenizer("gpt2")
         self.gpt_embedding_size = self.gpt.transformer.wte.weight.shape[1]
         if prefix_length > 10:  # not enough memory
             self.clip_project = nn.Linear(

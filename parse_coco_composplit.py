@@ -20,9 +20,8 @@ import json
 import os
 from tqdm import tqdm
 import argparse
-
 SPLIT_NAME = "compo"
-
+import random
 
 def load_splits(dataset_splits_folder: str) -> List[Dict[str, List[int]]]:
     '''
@@ -54,7 +53,11 @@ def check_if_image_in_split(img_id: int, split: dict) -> bool:
     return img_id in split["train_images_split"]
 
 
-def create_embedding_pkl(clip_model_type: str, split: dict, split_index : int):
+def create_embedding_pkl(clip_model_type: str,
+                         split_id: str,
+                         annotations_path : str,
+                         split: dict = None,
+                         ids_set: set = None):
     """
         Main function for generating embeddings using the CLIP model.
 
@@ -66,30 +69,35 @@ def create_embedding_pkl(clip_model_type: str, split: dict, split_index : int):
             :param type1:
             :param split:
         """
-    print(f"creating embedding for split_{split_index}")
+    print(f"creating embedding for split_{split_id}")
     device = torch.device('cuda:0')
     clip_model_name = clip_model_type.replace('/', '_')
-    out_path = f"./data/coco/{SPLIT_NAME}_split_{split_index}" \
+    out_path = f"./data/coco/{SPLIT_NAME}_split_{split_id}" \
                f"_{clip_model_name}_train.pkl"
+    log_path = f"./data/coco/{SPLIT_NAME}_{clip_model_name}" \
+               f"_parse_log.txt"
     # Load the CLIP model and the preprocessing function
     clip_model, preprocess = clip.load(clip_model_type, device=device,
                                        jit=False,
                                        download_root="/cs/snapless/oabend/raz.zeevy/CLIP_prefix_caption/model"
                                        )
     # Load the captions from a JSON file
-    with open('./data/coco/annotations/train_caption.json', 'r') as f:
+    with open(annotations_path, 'r') as f:
         data = json.load(f)
     print("%0d captions loaded from json " % len(data))
     all_embeddings = []
     all_captions = []
     # Changed the working index in the loop to j instead of i
     # because of the change in the number of images processed
-    j = 0 # counter for the real number of images processed
+    j = 0  # counter for the real number of images processed
     for i in tqdm(range(len(data))):
         d = data[i]
         img_id = d["image_id"]
         # check if the image is in the cosplit train set
-        if not check_if_image_in_split(img_id, split): continue
+        if ids_set is not None:
+            if img_id not in ids_set: continue
+        else:
+            if not check_if_image_in_split(img_id, split): continue
         filename = f"./data/coco/train2014/COCO_train2014_{int(img_id):012d}.jpg"
         # If the image is not found in the train2014 directory, try the val2014 directory
         if not os.path.isfile(filename):
@@ -112,26 +120,62 @@ def create_embedding_pkl(clip_model_type: str, split: dict, split_index : int):
     with open(out_path, 'wb') as f:
         pickle.dump({"clip_embedding": torch.cat(all_embeddings, dim=0),
                      "captions": all_captions}, f)
-    print(f'Done split {split_index}')
+    print(f'Done split {split_id}')
     print("%0d embeddings saved " % len(all_embeddings))
+    log_status = f'done split {split_id} : {len(all_embeddings)} ' \
+                 f'captions saved'
+    log_parsing_status(log_path, log_status)
     return 0
 
 
-def main(clip_model_type: str, dataset_splits_folder: str, split_index : int):
+def log_parsing_status(path: str, status: str):
+    with open(path, 'a') as f:
+        f.write(f'{status}\n')
+
+def sample_random_image_ids(n: int, annotations_path : str) -> set:
+    with open(annotations_path, "r") as f:
+        data_list = json.load(f)
+    ids = set([row['image_id'] for row in data_list])
+    return random.sample(ids, n)
+
+def main(clip_model_type: str, dataset_splits_folder: str,
+         split_index: int, annotations_path : str):
+    # load splits
     split_index = int(split_index) if split_index is not None else None
     splits = load_splits(dataset_splits_folder)
+
+    # if split_index = i - run only the i-th split with the given index
     if split_index is not None:
-        create_embedding_pkl(clip_model_type, splits[split_index-1],
-                             split_index)
+        create_embedding_pkl(
+            clip_model_type=clip_model_type,
+            split_id=str(split_index),
+            annotations_path=annotations_path,
+            split=splits[split_index - 1])
         return
+
+    # run all splits + control split
     for i, split in enumerate(splits):
-        create_embedding_pkl(clip_model_type, split, i+1)
+        create_embedding_pkl(
+            clip_model_type=clip_model_type,
+            split_id=str(i + 1),
+            annotations_path=annotations_path,
+            split=split)
+    # create control split
+    ids = sample_random_image_ids(79815, annotations_path)
+    create_embedding_pkl(
+        clip_model_type=clip_model_type,
+        split_id="control",
+        annotations_path=annotations_path,
+        ids_set=ids)
 
 if __name__ == '__main__':
+    def_annot_path = './data/coco/annotations/tagged_train_caption.json'
     parser = argparse.ArgumentParser()
-    parser.add_argument('--clip_model_type', default="ViT-B/32",
+    parser.add_argument('--clip-model-type', default="ViT-B/32",
                         choices=('RN50', 'RN101', 'RN50x4', 'ViT-B/32'))
     parser.add_argument('--dataset-splits', default="./dataset_splits")
+    parser.add_argument('--annotations-path', default=def_annot_path)
     parser.add_argument('--index', default=None)
     args = parser.parse_args()
-    exit(main(args.clip_model_type, args.dataset_splits, args.index))
+    exit(main(args.clip_model_type, args.dataset_splits, args.index,
+              args.annotations_path))
