@@ -11,7 +11,7 @@ def check_args(args):
     parser.add_argument(
         "--model-path",
         help="Path to the trained model",
-        default=os.path.expanduser("model/ViT-B-32.pt"),
+        default=os.path.expanduser("coco_train/coco_prefix_latest.pt"),
     )
     parser.add_argument(
         "--image-path",
