@@ -69,7 +69,12 @@ def create_embedding_pkl(clip_model_type: str,
             :param type1:
             :param split:
         """
-    print(f"creating embedding for split_{split_id}")
+    print(f"creating embedding for split_{split_id}"
+          f" using model {clip_model_type}"
+          f" annotations:{annotations_path}"
+          f"ids_set:{'{ids_set}' if ids_set is not None else 'None'}"
+          f"split:{'{split}' if split is not None else 'None'}")
+
     device = torch.device('cuda:0')
     clip_model_name = clip_model_type.replace('/', '_')
     out_path = f"./data/coco/{SPLIT_NAME}_split_{split_id}" \
