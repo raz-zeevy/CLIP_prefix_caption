@@ -20,8 +20,10 @@ import json
 import os
 from tqdm import tqdm
 import argparse
+
 SPLIT_NAME = "compo"
 import random
+
 
 def load_splits(dataset_splits_folder: str) -> List[Dict[str, List[int]]]:
     '''
@@ -55,7 +57,7 @@ def check_if_image_in_split(img_id: int, split: dict) -> bool:
 
 def create_embedding_pkl(clip_model_type: str,
                          split_id: str,
-                         annotations_path : str,
+                         annotations_path: str,
                          split: dict = None,
                          ids_set: set = None):
     """
@@ -69,10 +71,10 @@ def create_embedding_pkl(clip_model_type: str,
             :param type1:
             :param split:
         """
-    print(f"creating embedding for split_{split_id}"
-          f" using model {clip_model_type}"
-          f" annotations:{annotations_path}"
-          f"ids_set:{'{ids_set}' if ids_set is not None else 'None'}"
+    print(f"creating embedding for split_{split_id}\n"
+          f"using model {clip_model_type}\n"
+          f"annotations:{annotations_path}\n"
+          f"ids_set:{'{ids_set}' if ids_set is not None else 'None'}\n"
           f"split:{'{split}' if split is not None else 'None'}")
 
     device = torch.device('cuda:0')
@@ -92,7 +94,7 @@ def create_embedding_pkl(clip_model_type: str,
     print("%0d captions loaded from json " % len(data))
     all_embeddings = []
     all_captions = []
-    # Changed the working index in the loop to j instead of i
+    # added one more working index in the loop  j
     # because of the change in the number of images processed
     j = 0  # counter for the real number of images processed
     for i in tqdm(range(len(data))):
@@ -112,7 +114,7 @@ def create_embedding_pkl(clip_model_type: str,
         with torch.no_grad():
             # Encode the image using the CLIP model
             prefix = clip_model.encode_image(image).cpu()
-        d["clip_embedding"] = j
+        d["clip_embedding"] = i
         all_embeddings.append(prefix)
         all_captions.append(d)
         if (j + 1) % 10000 == 0:
@@ -121,8 +123,10 @@ def create_embedding_pkl(clip_model_type: str,
                 pickle.dump(
                     {"clip_embedding": torch.cat(all_embeddings, dim=0),
                      "captions": all_captions}, f)
+        j += 1
     # Save the final embeddings and captions to a pickle file
     if (len(all_embeddings) == 0): print("no embeddings saved")
+    if (j == 0): print("no embeddings saved")
     with open(out_path, 'wb') as f:
         pickle.dump({"clip_embedding": torch.cat(all_embeddings, dim=0),
                      "captions": all_captions}, f)
@@ -138,14 +142,16 @@ def log_parsing_status(path: str, status: str):
     with open(path, 'a') as f:
         f.write(f'{status}\n')
 
-def sample_random_image_ids(n: int, annotations_path : str) -> set:
+
+def sample_random_image_ids(n: int, annotations_path: str) -> set:
     with open(annotations_path, "r") as f:
         data_list = json.load(f)
     ids = set([row['image_id'] for row in data_list])
     return random.sample(ids, n)
 
+
 def main(clip_model_type: str, dataset_splits_folder: str,
-         split_index: int, annotations_path : str):
+         split_index: int, annotations_path: str):
     # load splits
     split_index = int(split_index) if split_index is not None else None
     splits = load_splits(dataset_splits_folder)
@@ -173,6 +179,7 @@ def main(clip_model_type: str, dataset_splits_folder: str,
         split_id="control",
         annotations_path=annotations_path,
         ids_set=ids)
+
 
 if __name__ == '__main__':
     def_annot_path = './data/coco/annotations/tagged_train_caption.json'
