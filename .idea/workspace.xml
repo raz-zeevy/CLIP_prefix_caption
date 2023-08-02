@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="83f56422-b74a-48cc-9a2f-fea1ee7e23ef" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/data/tagged_train_caption.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/linguistic_tokenizer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parse_captions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eval.py" beforeDir="false" afterPath="$PROJECT_DIR$/eval.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parse_coco_composplit.py" beforeDir="false" afterPath="$PROJECT_DIR$/parse_coco_composplit.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/predict.py" beforeDir="false" afterPath="$PROJECT_DIR$/predict.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -236,7 +230,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685345711766</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="changes in parse_compo_composplit.py">
+      <created>1691003016293</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1691003016293</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -255,7 +256,8 @@
     <MESSAGE value="preprocess to train clip on splits" />
     <MESSAGE value="add composplit train" />
     <MESSAGE value="1. changed 'clip_embedding' in parse_compo for future use&#10;2. modified train.py to ignore this field for now" />
-    <option name="LAST_COMMIT_MESSAGE" value="1. changed 'clip_embedding' in parse_compo for future use&#10;2. modified train.py to ignore this field for now" />
+    <MESSAGE value="changes in parse_compo_composplit.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="changes in parse_compo_composplit.py" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

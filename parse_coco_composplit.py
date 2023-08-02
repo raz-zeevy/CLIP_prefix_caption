@@ -122,6 +122,7 @@ def create_embedding_pkl(clip_model_type: str,
                     {"clip_embedding": torch.cat(all_embeddings, dim=0),
                      "captions": all_captions}, f)
     # Save the final embeddings and captions to a pickle file
+    if (len(all_embeddings) == 0): print("no embeddings saved")
     with open(out_path, 'wb') as f:
         pickle.dump({"clip_embedding": torch.cat(all_embeddings, dim=0),
                      "captions": all_captions}, f)
