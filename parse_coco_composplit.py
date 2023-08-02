@@ -91,15 +91,13 @@ def create_embedding_pkl(clip_model_type: str,
                                        )
     # Load the captions from a JSON file
     with open(annotations_path, 'r') as f:
-        data = json.load(f)
-    print("%0d captions loaded from json " % len(data))
+        annot_data = json.load(f)
+    print("%0d captions loaded from json " % len(annot_data))
     all_embeddings = []
     all_captions = []
-    # added one more working index in the loop  j
-    # because of the change in the number of images processed
     j = 0  # counter for the real number of images processed
-    for i in tqdm(range(len(data))):
-        d = data[i]
+    for i in tqdm(range(len(annot_data))):
+        d = annot_data[i]
         img_id = d["image_id"]
         # check if the image is in the composplit train set
         if ids_set is not None:
@@ -107,7 +105,7 @@ def create_embedding_pkl(clip_model_type: str,
         else:
             if not check_if_image_in_split(img_id, split): continue
         filename = dataset_folder+"/COCO_train2014" \
-                     "_{int(img_id):012d}.jpg"
+                     f"_{int(img_id):012d}.jpg"
         # If the image is not found in dataset folder search in
         # the val2014 directory
         if not os.path.isfile(filename):
