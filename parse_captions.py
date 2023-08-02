@@ -25,10 +25,19 @@ def add_tags_to_captions(captions: dict) -> None:
                 caption = lt.create_tag(tag) + caption
         row[CAPTION] = caption
 
+
+def remove_excess_labels(captions):
+    for row in captions[ANNOTATIONS]:
+        keys = list(row.keys())
+        for key in keys:
+            if key not in [CAPTION, 'image_id', 'id']:
+                del row[key]
+
 if __name__ == '__main__':
     all_tagged_captions_path = 'data/captions_train2014.json'
     captions_dict = load_captions(all_tagged_captions_path)
     add_tags_to_captions(captions_dict)
+    remove_excess_labels(captions_dict)
     with open('data/tagged_train_caption.json', 'w') as f:
         json.dump(captions_dict[ANNOTATIONS], f)
     print("done")

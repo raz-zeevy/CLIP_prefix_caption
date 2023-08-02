@@ -56,6 +56,7 @@ def check_if_image_in_split(img_id: str, split: dict) -> bool:
 
 
 def create_embedding_pkl(clip_model_type: str,
+                         dataset_folder : str,
                          split_id: str,
                          annotations_path: str,
                          split: dict = None,
@@ -100,13 +101,15 @@ def create_embedding_pkl(clip_model_type: str,
     for i in tqdm(range(len(data))):
         d = data[i]
         img_id = d["image_id"]
-        # check if the image is in the cosplit train set
+        # check if the image is in the composplit train set
         if ids_set is not None:
             if img_id not in ids_set: continue
         else:
             if not check_if_image_in_split(img_id, split): continue
-        filename = f"./data/coco/train2014/COCO_train2014_{int(img_id):012d}.jpg"
-        # If the image is not found in the train2014 directory, try the val2014 directory
+        filename = dataset_folder+"/COCO_train2014" \
+                     "_{int(img_id):012d}.jpg"
+        # If the image is not found in dataset folder search in
+        # the val2014 directory
         if not os.path.isfile(filename):
             filename = f"./data/coco/val2014/COCO_val2014_{int(img_id):012d}.jpg"
         image = io.imread(filename)
@@ -150,7 +153,8 @@ def sample_random_image_ids(n: int, annotations_path: str) -> set:
     return random.sample(ids, n)
 
 
-def main(clip_model_type: str, dataset_splits_folder: str,
+def main(clip_model_type: str, dataset_folder: str,
+         dataset_splits_folder: str,
          split_index: int, annotations_path: str):
     # load splits
     split_index = int(split_index) if split_index is not None else None
@@ -160,6 +164,7 @@ def main(clip_model_type: str, dataset_splits_folder: str,
     if split_index is not None:
         create_embedding_pkl(
             clip_model_type=clip_model_type,
+            dataset_folder=dataset_folder,
             split_id=str(split_index),
             annotations_path=annotations_path,
             split=splits[split_index - 1])
@@ -169,6 +174,7 @@ def main(clip_model_type: str, dataset_splits_folder: str,
     for i, split in enumerate(splits):
         create_embedding_pkl(
             clip_model_type=clip_model_type,
+            dataset_folder=dataset_folder,
             split_id=str(i + 1),
             annotations_path=annotations_path,
             split=split)
@@ -176,6 +182,7 @@ def main(clip_model_type: str, dataset_splits_folder: str,
     ids = sample_random_image_ids(79815, annotations_path)
     create_embedding_pkl(
         clip_model_type=clip_model_type,
+        dataset_folder=dataset_folder,
         split_id="control",
         annotations_path=annotations_path,
         ids_set=ids)
@@ -187,8 +194,9 @@ if __name__ == '__main__':
     parser.add_argument('--clip-model-type', default="ViT-B/32",
                         choices=('RN50', 'RN101', 'RN50x4', 'ViT-B/32'))
     parser.add_argument('--dataset-splits', default="./dataset_splits")
-    parser.add_argument('--annotations-path', default=def_annot_path)
+    parser.add_argument('--annotations', default=def_annot_path)
+    parser.add_argument('--dataset-folder', default="./data/coco/train2014")
     parser.add_argument('--index', default=None)
     args = parser.parse_args()
-    exit(main(args.clip_model_type, args.dataset_splits, args.index,
-              args.annotations_path))
+    exit(main(args.clip_model_type, args.dataset_folder, args.dataset_splits,
+              args.index, args.annotations))
