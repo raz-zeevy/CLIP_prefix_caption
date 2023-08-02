@@ -41,18 +41,18 @@ def load_splits(dataset_splits_folder: str) -> List[Dict[str, List[int]]]:
     return splits
 
 
-def check_if_image_in_split(img_id: int, split: dict) -> bool:
+def check_if_image_in_split(img_id: str, split: dict) -> bool:
     """
     Checks if an image is in the split.
 
     Args:
-        img_id (int): Image ID.
+        img_id (str): Image ID.
         split (dict): Dictionary containing the split.
 
     Returns:
         bool: True if the image is in the split, False otherwise.
     """
-    return img_id in split["train_images_split"]
+    return str(img_id) in split["train_images_split"]
 
 
 def create_embedding_pkl(clip_model_type: str,
@@ -126,7 +126,7 @@ def create_embedding_pkl(clip_model_type: str,
         j += 1
     # Save the final embeddings and captions to a pickle file
     if (len(all_embeddings) == 0): print("no embeddings saved")
-    if (j == 0): print("no embeddings saved")
+    if (j == 0): print("no pic found in split")
     with open(out_path, 'wb') as f:
         pickle.dump({"clip_embedding": torch.cat(all_embeddings, dim=0),
                      "captions": all_captions}, f)
