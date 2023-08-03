@@ -14,6 +14,7 @@ import argparse
 import json
 from typing import Tuple, Optional, Union
 
+global out_dir
 
 class MappingType(Enum):
     MLP = 'mlp'
@@ -54,9 +55,9 @@ class ClipCocoDataset(Dataset):
         import linguistic_tokenizer as lt
         self.tokenizer = lt.create_tokenizer(gpt2_type)
         # save tokenizer
-        if not os.path.exists("checkpoint"):
-            os.mkdir("checkpoint")
-        self.tokenizer.save("checkpoint/tokenizer.json")
+        if not os.path.exists(out_dir):
+            os.mkdir(out_dir)
+        self.tokenizer.save_pretrained(out_dir+"/tokenizer.json")
         #
         self.prefix_length = prefix_length
         self.normalize_prefix = normalize_prefix
@@ -359,6 +360,7 @@ def main():
     parser.add_argument('--is_rn', dest='is_rn', action='store_true')
     parser.add_argument('--normalize_prefix', dest='normalize_prefix', action='store_true')
     args = parser.parse_args()
+    output_dir = args.out_dir
     prefix_length = args.prefix_length
     dataset = ClipCocoDataset(args.data, prefix_length, normalize_prefix=args.normalize_prefix)
     prefix_dim = 640 if args.is_rn else 512

@@ -26,7 +26,7 @@ def create_tokenizer(gpt2_type: str):
     from transformers import GPT2Tokenizer
     tokenizer = GPT2Tokenizer.from_pretrained(gpt2_type)
     tokenizer.add_special_tokens(
-        {'additional_special_tokens' : [create_tag(tag) for tag in TAGS]}
+        {'additional_special_tokens': [create_tag(tag) for tag in TAGS]}
     )
     return tokenizer
 
