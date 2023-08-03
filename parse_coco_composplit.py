@@ -56,12 +56,12 @@ def check_if_image_in_split(img_id: str, split: dict) -> bool:
 
 
 def create_embedding_pkl(clip_model_type: str,
-                         dataset_folder : str,
+                         dataset_folder: str,
                          split_id: str,
                          annotations_path: str,
                          output_folder: str,
                          split: dict = None,
-                         ids_set: set = None,):
+                         ids_set: set = None, ):
     """
         Main function for generating embeddings using the CLIP model.
 
@@ -89,9 +89,9 @@ def create_embedding_pkl(clip_model_type: str,
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
     out_path = output_folder + f"/{SPLIT_NAME}_split_{split_id}" \
-               f"_{clip_model_name}_train.pkl"
+                               f"_{clip_model_name}_train.pkl"
     log_path = output_folder + f"/{SPLIT_NAME}_{clip_model_name}" \
-               f"_parse_log.txt"
+                               f"_parse_log.txt"
     # Load the CLIP model and the preprocessing function
     clip_model, preprocess = clip.load(clip_model_type, device=device,
                                        jit=False,
@@ -112,8 +112,8 @@ def create_embedding_pkl(clip_model_type: str,
             if img_id not in ids_set: continue
         else:
             if not check_if_image_in_split(img_id, split): continue
-        filename = dataset_folder+"/COCO_train2014" \
-                     f"_{int(img_id):012d}.jpg"
+        filename = dataset_folder + "/COCO_train2014" \
+                                    f"_{int(img_id):012d}.jpg"
         # If the image is not found in dataset folder search in
         # the val2014 directory
         if not os.path.isfile(filename):
@@ -142,10 +142,12 @@ def create_embedding_pkl(clip_model_type: str,
     print(f'Done split {split_id}')
     print("%0d embeddings saved " % len(all_embeddings))
     log_status = f'done split {split_id} : {len(all_embeddings)} ' \
-                 f'embedding saved, {len(all_captions)} captions saved' \
-                 f' {j} images processed'
+                 f'embedding saved, {len(all_captions)} captions saved,' \
+                 f' {len(set([row["image_id"] for row in all_captions]))}' \
+                 f' images processed, annotations path: {annotations_path}'
     log_parsing_status(log_path, log_status)
     return 0
+
 
 def log_parsing_status(path: str, status: str):
     with open(path, 'a') as f:
