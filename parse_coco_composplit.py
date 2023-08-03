@@ -134,10 +134,10 @@ def create_embedding_pkl(clip_model_type: str,
     print(f'Done split {split_id}')
     print("%0d embeddings saved " % len(all_embeddings))
     log_status = f'done split {split_id} : {len(all_embeddings)} ' \
-                 f'captions saved'
+                 f'embedding saved, {len(all_captions)} captions saved' \
+                 f' {j} images processed'
     log_parsing_status(log_path, log_status)
     return 0
-
 
 def log_parsing_status(path: str, status: str):
     with open(path, 'a') as f:
