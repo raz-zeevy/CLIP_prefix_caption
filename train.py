@@ -14,6 +14,7 @@ import argparse
 import json
 from typing import Tuple, Optional, Union
 
+# for saving the tokenizer
 global out_dir
 
 class MappingType(Enum):
@@ -346,6 +347,7 @@ def train(dataset: ClipCocoDataset, model: ClipCaptionModel, args,
 
 
 def main():
+    global out_dir
     parser = argparse.ArgumentParser()
     parser.add_argument('--data', default='./data/coco/compo_split_1_ViT-B_32_train.pkl')
     parser.add_argument('--out_dir', default='./checkpoints')
@@ -361,7 +363,7 @@ def main():
     parser.add_argument('--is_rn', dest='is_rn', action='store_true')
     parser.add_argument('--normalize_prefix', dest='normalize_prefix', action='store_true')
     args = parser.parse_args()
-    output_dir = args.out_dir
+    out_dir = args.out_dir
     prefix_length = args.prefix_length
     dataset = ClipCocoDataset(args.data, prefix_length, normalize_prefix=args.normalize_prefix)
     prefix_dim = 640 if args.is_rn else 512
