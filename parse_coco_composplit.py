@@ -59,8 +59,9 @@ def create_embedding_pkl(clip_model_type: str,
                          dataset_folder : str,
                          split_id: str,
                          annotations_path: str,
+                         output_folder: str,
                          split: dict = None,
-                         ids_set: set = None):
+                         ids_set: set = None,):
     """
         Main function for generating embeddings using the CLIP model.
 
@@ -80,9 +81,11 @@ def create_embedding_pkl(clip_model_type: str,
 
     device = torch.device('cuda:0')
     clip_model_name = clip_model_type.replace('/', '_')
-    out_path = f"./data/coco/{SPLIT_NAME}_split_{split_id}" \
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+    out_path = output_folder + f"/{SPLIT_NAME}_split_{split_id}" \
                f"_{clip_model_name}_train.pkl"
-    log_path = f"./data/coco/{SPLIT_NAME}_{clip_model_name}" \
+    log_path = output_folder + f"/{SPLIT_NAME}_{clip_model_name}" \
                f"_parse_log.txt"
     # Load the CLIP model and the preprocessing function
     clip_model, preprocess = clip.load(clip_model_type, device=device,
@@ -151,9 +154,12 @@ def sample_random_image_ids(n: int, annotations_path: str) -> set:
     return random.sample(ids, n)
 
 
-def main(clip_model_type: str, dataset_folder: str,
+def main(clip_model_type: str,
+         dataset_folder: str,
          dataset_splits_folder: str,
-         split_index: int, annotations_path: str):
+         split_index: int,
+         annotations_path: str,
+         output_folder: str):
     # load splits
     split_index = int(split_index) if split_index is not None else None
     splits = load_splits(dataset_splits_folder)
@@ -165,7 +171,8 @@ def main(clip_model_type: str, dataset_folder: str,
             dataset_folder=dataset_folder,
             split_id=str(split_index),
             annotations_path=annotations_path,
-            split=splits[split_index - 1])
+            split=splits[split_index - 1],
+            output_folder=output_folder)
         return
 
     # run all splits + control split
@@ -175,7 +182,8 @@ def main(clip_model_type: str, dataset_folder: str,
             dataset_folder=dataset_folder,
             split_id=str(i + 1),
             annotations_path=annotations_path,
-            split=split)
+            split=split,
+            output_folder=output_folder)
     # create control split
     ids = sample_random_image_ids(79815, annotations_path)
     create_embedding_pkl(
@@ -183,7 +191,8 @@ def main(clip_model_type: str, dataset_folder: str,
         dataset_folder=dataset_folder,
         split_id="control",
         annotations_path=annotations_path,
-        ids_set=ids)
+        ids_set=ids,
+        output_folder=output_folder)
 
 
 if __name__ == '__main__':
@@ -195,6 +204,12 @@ if __name__ == '__main__':
     parser.add_argument('--annotations', default=def_annot_path)
     parser.add_argument('--dataset-folder', default="./data/coco/train2014")
     parser.add_argument('--index', default=None)
+    parser.add_argument('--output-folder', default='./data/coco')
     args = parser.parse_args()
-    exit(main(args.clip_model_type, args.dataset_folder, args.dataset_splits,
-              args.index, args.annotations))
+    exit(main(
+        clip_model_type=args.clip_model_type,
+        dataset_folder=args.dataset_folder,
+        dataset_splits_folder=args.dataset_splits,
+        split_index=args.index,
+        annotations_path=args.annotations,
+        output_folder=args.output_folder))
