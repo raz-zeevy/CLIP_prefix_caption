@@ -77,7 +77,6 @@ class ClipCocoDataset(Dataset):
             max_seq_len = 0
             for j, caption in enumerate(captions_raw):
                 self.captions_tokens.append(torch.tensor(self.tokenizer.encode(caption['caption']), dtype=torch.int64))
-                # TODO: change it back to original
                 self.caption2embedding.append(j)
                 max_seq_len = max(max_seq_len, self.captions_tokens[-1].shape[0])
             # self.max_seq_len = max_seq_len

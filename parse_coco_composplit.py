@@ -70,7 +70,12 @@ def create_embedding_pkl(clip_model_type: str,
 
         Returns:
             int: Status code (0) indicating the success of the function.
-            :param type1:
+            :param ids_set:
+            :param output_folder:
+            :param clip_model_type:
+            :param dataset_folder:
+            :param split_id:
+            :param annotations_path:
             :param split:
         """
     print(f"creating embedding for split_{split_id}\n"
