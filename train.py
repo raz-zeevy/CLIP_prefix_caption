@@ -57,7 +57,7 @@ class ClipCocoDataset(Dataset):
         self.tokenizer = lt.create_tokenizer(gpt2_type)
         # save tokenizer
         if not os.path.exists(out_dir):
-            os.mkdir(out_dir)
+            os.makedirs(out_dir)
         # test TODO: remove
         self.tokenizer.save_pretrained(out_dir+"/tokenizer.json")
         #
