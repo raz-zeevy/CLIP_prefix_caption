@@ -381,4 +381,6 @@ def main():
 
 
 if __name__ == '__main__':
+    # Set the CUDA_LAUNCH_BLOCKING environment variable to 1
+    os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
     main()
