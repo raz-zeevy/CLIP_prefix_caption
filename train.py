@@ -87,7 +87,7 @@ class ClipCocoDataset(Dataset):
                 pickle.dump([self.captions_tokens, self.caption2embedding, max_seq_len], f)
         all_len = torch.tensor([len(self.captions_tokens[i]) for i in range(len(self))]).float()
         self.max_seq_len = min(int(all_len.mean() + all_len.std() * 10), int(all_len.max()))
-
+        print("finished creating new *_tokens.pkl file")
 
 class MLP(nn.Module):
 

@@ -1,7 +1,9 @@
 import linguistic_tokenizer as lt
 import json
+
 CAPTION = 'caption'
 ANNOTATIONS = 'annotations'
+
 
 def load_captions(json_path: str) -> dict:
     '''
@@ -33,11 +35,17 @@ def remove_excess_labels(captions):
             if key not in [CAPTION, 'image_id', 'id']:
                 del row[key]
 
+
+def cast_ids_to_string(captions):
+    for row in captions[ANNOTATIONS]:
+        row['image_id'] = str(row['image_id'])
+
 if __name__ == '__main__':
     all_tagged_captions_path = 'data/captions_train2014.json'
     captions_dict = load_captions(all_tagged_captions_path)
     add_tags_to_captions(captions_dict)
     remove_excess_labels(captions_dict)
+    cast_ids_to_string(captions_dict)
     with open('data/tagged_train_caption.json', 'w') as f:
         json.dump(captions_dict[ANNOTATIONS], f)
     print("done")
