@@ -59,7 +59,7 @@ class ClipCocoDataset(Dataset):
         if not os.path.exists(out_dir):
             os.makedirs(out_dir)
         # test TODO: remove
-        self.tokenizer.save_pretrained(out_dir+"/tokenizer.json")
+        self.tokenizer.save_pretrained(out_dir+"/tokenizer")
         #
         self.prefix_length = prefix_length
         self.normalize_prefix = normalize_prefix

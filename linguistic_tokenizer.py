@@ -1,3 +1,5 @@
+from transformers import DistilBertTokenizer
+
 TAGS = dict(
     NUMERALS='numerals',
     NEGATION='negation',
@@ -32,6 +34,5 @@ def create_tokenizer(gpt2_type: str):
 
 
 def load_tokenizer(path):
-    from transformers import PreTrainedTokenizerFast
-    tokenizer = PreTrainedTokenizerFast(tokenizer_file=path)
+    tokenizer = DistilBertTokenizer.from_pretrained(path)
     return tokenizer
