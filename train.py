@@ -253,6 +253,7 @@ class ClipCaptionModel(nn.Module):
         self.tokenizer = lt.load_tokenizer(os.path.join(out_dir,
                                                         'tokenizer'))
         print("load_tokenizer", self.tokenizer)
+        self.gpt.resize_token_embeddings(len(self.tokenizer))
         self.gpt_embedding_size = self.gpt.transformer.wte.weight.shape[1]
         if mapping_type == MappingType.MLP:
             self.clip_project = MLP((prefix_size, (self.gpt_embedding_size * prefix_length) // 2,
