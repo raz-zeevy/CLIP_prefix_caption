@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="83f56422-b74a-48cc-9a2f-fea1ee7e23ef" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parse_coco_composplit.py" beforeDir="false" afterPath="$PROJECT_DIR$/parse_coco_composplit.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/linguistic_tokenizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/linguistic_tokenizer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -244,7 +244,35 @@
       <option name="project" value="LOCAL" />
       <updated>1691003079315</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="fix model tokenizer">
+      <created>1691441509972</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1691441509972</updated>
+    </task>
+    <task id="LOCAL-00013" summary="fix model tokenizer">
+      <created>1691442735703</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1691442735703</updated>
+    </task>
+    <task id="LOCAL-00014" summary="fix model tokenizer">
+      <created>1691443092104</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1691443092104</updated>
+    </task>
+    <task id="LOCAL-00015" summary="fix model tokenizer">
+      <created>1691443124244</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1691443124244</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -264,24 +292,25 @@
     <MESSAGE value="add composplit train" />
     <MESSAGE value="1. changed 'clip_embedding' in parse_compo for future use&#10;2. modified train.py to ignore this field for now" />
     <MESSAGE value="changes in parse_compo_composplit.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="changes in parse_compo_composplit.py" />
+    <MESSAGE value="fix model tokenizer" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix model tokenizer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/train.py</url>
-          <line>320</line>
+          <line>318</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/train.py</url>
-          <line>312</line>
+          <line>310</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/train.py</url>
-          <line>375</line>
+          <line>373</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">

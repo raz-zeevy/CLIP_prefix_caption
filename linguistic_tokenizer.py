@@ -34,5 +34,6 @@ def create_tokenizer(gpt2_type: str):
 
 
 def load_tokenizer(path):
-    tokenizer = AutoTokenizer.from_pretrained(path)
+    from transformers import GPT2Tokenizer
+    tokenizer = GPT2Tokenizer.from_pretrained(path)
     return tokenizer
