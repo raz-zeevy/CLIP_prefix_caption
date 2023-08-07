@@ -1,4 +1,4 @@
-from transformers import DistilBertTokenizer
+from transformers import DistilBertTokenizer, AutoTokenizer
 
 TAGS = dict(
     NUMERALS='numerals',
@@ -34,5 +34,5 @@ def create_tokenizer(gpt2_type: str):
 
 
 def load_tokenizer(path):
-    tokenizer = DistilBertTokenizer.from_pretrained(path)
+    tokenizer = AutoTokenizer.from_pretrained(path)
     return tokenizer
