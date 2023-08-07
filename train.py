@@ -251,7 +251,7 @@ class ClipCaptionModel(nn.Module):
         self.prefix_length = prefix_length
         self.gpt = GPT2LMHeadModel.from_pretrained('gpt2')
         self.tokenizer = lt.load_tokenizer(os.path.join(out_dir,
-                                                        'tokenizer.json'))
+                                                        'tokenizer'))
         print("load_tokenizer", self.tokenizer)
         self.gpt_embedding_size = self.gpt.transformer.wte.weight.shape[1]
         if mapping_type == MappingType.MLP:

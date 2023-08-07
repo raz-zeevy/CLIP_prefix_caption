@@ -33,7 +33,7 @@ def create_tokenizer(gpt2_type: str):
     return tokenizer
 
 def save_tokenizer(tokenizer, path):
-    tokenizer.save(path)
+    tokenizer.save_pretrained(path)
 
 def load_tokenizer(path):
     from transformers import GPT2Tokenizer
