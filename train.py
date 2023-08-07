@@ -13,6 +13,7 @@ import sys
 import argparse
 import json
 from typing import Tuple, Optional, Union
+import linguistic_tokenizer as lt
 
 # for saving the tokenizer
 global out_dir
@@ -53,7 +54,6 @@ class ClipCocoDataset(Dataset):
     def __init__(self, data_path: str,  prefix_length: int, gpt2_type: str = "gpt2",
                  normalize_prefix=False):
         # create tokenizer
-        import linguistic_tokenizer as lt
         self.tokenizer = lt.create_tokenizer(gpt2_type)
         # save tokenizer
         if not os.path.exists(out_dir):
@@ -250,6 +250,9 @@ class ClipCaptionModel(nn.Module):
         super(ClipCaptionModel, self).__init__()
         self.prefix_length = prefix_length
         self.gpt = GPT2LMHeadModel.from_pretrained('gpt2')
+        self.tokenizer = lt.load_tokenizer(os.path.join(out_dir,
+                                                        'tokenizer.json'))
+        print("load_tokenizer", self.tokenizer)
         self.gpt_embedding_size = self.gpt.transformer.wte.weight.shape[1]
         if mapping_type == MappingType.MLP:
             self.clip_project = MLP((prefix_size, (self.gpt_embedding_size * prefix_length) // 2,
