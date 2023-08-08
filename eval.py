@@ -28,7 +28,7 @@ def eval_using_predict(image_path, model_path):
     from predict import Predictor
     use_beam_search = False
     predictor = Predictor()
-    predictor.setup()
+    predictor.setup(model_path)
     print(predictor.predict(image_path, "coco", use_beam_search))
 
 if __name__ == '__main__':

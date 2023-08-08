@@ -46,24 +46,23 @@ CPU = torch.device("cpu")
 
 
 class Predictor(cog.BasePredictor):
-    def setup(self):
+    def setup(self, model_path):
         """Load the model into memory to make running multiple predictions efficient"""
         self.device = torch.device("cuda")
         self.clip_model, self.preprocess = clip.load(
-            "ViT-B/32", device=self.device, jit=False
+            "ViT-B/32", device=self.device, jit=False,
+            download_root="/cs/snapless/oabend/raz.zeevy/CLIP_prefix_caption/model"
         )
         # TODO: change it to load from disk instead of downloading
         #
         self.tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
-
         self.models = {}
         self.prefix_length = 10
-        for key, weights_path in WEIGHTS_PATHS.items():
-            model = ClipCaptionModel(self.prefix_length)
-            model.load_state_dict(torch.load(weights_path, map_location=CPU))
-            model = model.eval()
-            model = model.to(self.device)
-            self.models[key] = model
+        model = ClipCaptionModel(self.prefix_length)
+        model.load_state_dict(torch.load(model_path, map_location=CPU))
+        model = model.eval()
+        model = model.to(self.device)
+        self.models['coco'] = model
 
     # @cog.input("image", type=cog.Path, help="Input image")
     # @cog.input(
@@ -108,7 +107,6 @@ class MLP(nn.Module):
             if i < len(sizes) - 2:
                 layers.append(act())
         self.model = nn.Sequential(*layers)
-
 
 class ClipCaptionModel(nn.Module):
 
