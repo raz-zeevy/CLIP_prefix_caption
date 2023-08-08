@@ -56,7 +56,9 @@ class Predictor(cog.BasePredictor):
         )
         # TODO: change it to load from disk instead of downloading
         #
-        self.tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+        self.tokenizer = lt.load_tokenizer(
+            os.path.join(os.path.dirname(model_path),
+                         'tokenizer'))
         self.models = {}
         self.prefix_length = 10
         model = ClipCaptionModel(self.prefix_length,
