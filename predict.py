@@ -17,6 +17,7 @@ from transformers import (
 )
 import skimage.io as io
 import PIL.Image
+import linguistic_tokenizer as lt
 
 import cog
 
@@ -58,7 +59,8 @@ class Predictor(cog.BasePredictor):
         self.tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
         self.models = {}
         self.prefix_length = 10
-        model = ClipCaptionModel(self.prefix_length)
+        model = ClipCaptionModel(self.prefix_length,
+                                 tokenizer_folder=os.path.dirname(model_path))
         model.load_state_dict(torch.load(model_path, map_location=CPU))
         model = model.eval()
         model = model.to(self.device)
@@ -132,11 +134,15 @@ class ClipCaptionModel(nn.Module):
         out = self.gpt(inputs_embeds=embedding_cat, labels=labels, attention_mask=mask)
         return out
 
-    def __init__(self, prefix_length: int, prefix_size: int = 512):
+    def __init__(self, prefix_length: int, prefix_size: int = 512,
+                 tokenizer_folder: str = None):
         super(ClipCaptionModel, self).__init__()
         self.prefix_length = prefix_length
-        import linguistic_tokenizer as lt
-        self.gpt = lt.create_tokenizer("gpt2")
+        self.gpt = GPT2LMHeadModel.from_pretrained("gpt2")
+        if tokenizer_folder:
+            self.tokenizer = lt.load_tokenizer(os.path.join(tokenizer_folder,
+                                                            'tokenizer'))
+            self.gpt.resize_token_embeddings(len(self.tokenizer))
         self.gpt_embedding_size = self.gpt.transformer.wte.weight.shape[1]
         if prefix_length > 10:  # not enough memory
             self.clip_project = nn.Linear(
