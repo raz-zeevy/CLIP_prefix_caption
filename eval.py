@@ -32,6 +32,7 @@ def eval_using_predict(image_path, model_path):
     print(predictor.predict(image_path, "coco", use_beam_search))
 
 if __name__ == '__main__':
+    os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
     parsed_args = check_args(sys.argv[1:])
     # Define the path to the .pt file of the CLIP model
     model_path = parsed_args.model_path
