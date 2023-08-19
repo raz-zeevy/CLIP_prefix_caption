@@ -14,6 +14,7 @@ import argparse
 import json
 from typing import Tuple, Optional, Union
 import linguistic_tokenizer as lt
+from log import *
 
 # for saving the tokenizer
 global out_dir
@@ -306,7 +307,7 @@ def load_model(config_path: str, epoch_or_latest: Union[str, int] = '_latest'):
 
 def train(dataset: ClipCocoDataset, model: ClipCaptionModel, args,
           lr: float = 2e-5, warmup_steps: int = 5000, output_dir: str = ".", output_prefix: str = ""):
-
+    logger = Logger(os.path.join(output_dir, f"{output_prefix}.log"))
     device = torch.device('cuda:0')
     batch_size = args.bs
     epochs = args.epochs
@@ -347,6 +348,7 @@ def train(dataset: ClipCocoDataset, model: ClipCaptionModel, args,
                 model.state_dict(),
                 os.path.join(output_dir, f"{output_prefix}-{epoch:03d}.pt"),
             )
+    logger.log(f"Finished training {output_prefix}, data:{args.data}")
     return model
 
 

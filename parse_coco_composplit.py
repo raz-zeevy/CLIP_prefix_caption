@@ -7,6 +7,7 @@ of the compositional generalization dataset
 # These lines are meant to change the environment variables
 # in order to save the model to a different path
 from prepare import prepare
+from log import *
 
 prepare()
 #
@@ -92,6 +93,7 @@ def create_embedding_pkl(clip_model_type: str,
                                f"_{clip_model_name}_train.pkl"
     log_path = output_folder + f"/{SPLIT_NAME}_{clip_model_name}" \
                                f"_parse_log.txt"
+    logger = Logger(log_path)
     # Load the CLIP model and the preprocessing function
     clip_model, preprocess = clip.load(clip_model_type, device=device,
                                        jit=False,
@@ -145,14 +147,8 @@ def create_embedding_pkl(clip_model_type: str,
                  f'embedding saved, {len(all_captions)} captions saved,' \
                  f' {len(set([row["image_id"] for row in all_captions]))}' \
                  f' images processed, annotations path: {annotations_path}'
-    log_parsing_status(log_path, log_status)
+    logger.log(log_status)
     return 0
-
-
-def log_parsing_status(path: str, status: str):
-    with open(path, 'a') as f:
-        f.write(f'{status}\n')
-
 
 def sample_random_image_ids(n: int, annotations_path: str) -> set:
     with open(annotations_path, "r") as f:

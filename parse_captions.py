@@ -35,7 +35,6 @@ def remove_excess_labels(captions):
             if key not in [CAPTION, 'image_id', 'id']:
                 del row[key]
 
-
 def cast_ids_to_string(captions):
     for row in captions[ANNOTATIONS]:
         row['image_id'] = str(row['image_id'])
